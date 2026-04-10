@@ -43,9 +43,19 @@ const ProtectedRoute = ({ children, requiredRole }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  if (loading) return <div className="h-screen flex items-center justify-center animate-pulse">Authenticating...</div>;
+  if (loading) return (
+    <div className="h-screen flex flex-col items-center justify-center space-y-4">
+      <div className="w-12 h-12 border-4 border-zinc-900 border-t-transparent rounded-full animate-spin"></div>
+      <p className="text-xs font-black uppercase tracking-widest text-zinc-500 animate-pulse">Verifying Credentials...</p>
+    </div>
+  );
+
   if (!session) return <Navigate to="/login" replace />;
-  if (requiredRole && role !== requiredRole) return <Navigate to="/" replace />;
+  
+  // If a role is required, wait until it's loaded (not null) before deciding to redirect
+  if (requiredRole && role !== requiredRole) {
+    return <Navigate to="/" replace />;
+  }
 
   return children;
 };
