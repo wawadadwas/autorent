@@ -895,7 +895,6 @@ const AdminDashboard = () => {
               <Mail className="w-4 h-4" /> {profileMsg.text}
             </div>
           )}
-          )}
         </motion.div>
       )}
       </AnimatePresence>
