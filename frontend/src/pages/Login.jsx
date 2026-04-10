@@ -17,34 +17,54 @@ const Login = () => {
     setLoading(true);
     setError(null);
     
-    if (isLogin) {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
-        setLoading(false);
-      } else {
-        window.location.href = '/admin';
-      }
-    } else {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-      });
-
-      if (error) {
-        setError(error.message);
-        setLoading(false);
-      } else {
-        toast.success('Account created! Sign in to continue.', {
-          icon: '🚀',
+    try {
+      if (isLogin) {
+        const signInPromise = supabase.auth.signInWithPassword({
+          email,
+          password,
         });
-        setIsLogin(true);
+
+        toast.promise(signInPromise, {
+          loading: 'Verifying Security Clearance...',
+          success: 'Access Granted. Welcome back.',
+          error: (err) => `Access Denied: ${err.message}`,
+        });
+
+        const { error } = await signInPromise;
+
+        if (error) {
+          setError(error.message);
+          setLoading(false);
+        } else {
+          window.location.href = '/admin';
+        }
+      } else {
+        const signUpPromise = supabase.auth.signUp({
+          email,
+          password,
+        });
+
+        toast.promise(signUpPromise, {
+          loading: 'Archiving credentials...',
+          success: 'Archive established! Please check your email for activation.',
+          error: (err) => `Failed to create profile: ${err.message}`,
+        }, {
+          success: {
+            duration: 10000,
+            icon: '🚀',
+          }
+        });
+
+        const { error } = await signUpPromise;
+
+        if (!error) {
+          setIsLogin(true);
+        }
         setLoading(false);
       }
+    } catch (err) {
+      toast.error('Connection engine failure.');
+      setLoading(false);
     }
   };
 
