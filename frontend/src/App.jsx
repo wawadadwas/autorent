@@ -10,6 +10,7 @@ import { supabase } from './lib/supabase';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import InspectorGuard from './components/InspectorGuard';
+import { Toaster } from 'react-hot-toast';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const [session, setSession] = useState(null);
@@ -92,6 +93,13 @@ function App() {
   }, []);
   return (
     <Router>
+      <Toaster 
+        position="top-center"
+        toastOptions={{
+          className: 'bg-zinc-900 text-white rounded-2xl text-xs font-bold uppercase tracking-widest',
+          duration: 3000,
+        }}
+      />
       <InspectorGuard>
         <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
           <Navbar />

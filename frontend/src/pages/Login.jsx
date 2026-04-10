@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { LogIn, Car, AlertCircle, Eye, EyeOff, UserPlus } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { supabase } from '../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -38,7 +39,9 @@ const Login = () => {
         setError(error.message);
         setLoading(false);
       } else {
-        alert('Account created successfully! You can now log in.');
+        toast.success('Account created! Sign in to continue.', {
+          icon: '🚀',
+        });
         setIsLogin(true);
         setLoading(false);
       }

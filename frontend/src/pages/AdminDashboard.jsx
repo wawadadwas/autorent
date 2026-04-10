@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PlusCircle, Search, Edit2, Trash2, Layout, Shield, Mail, Lock, Check, Save, X, Image as ImageIcon, Eye, EyeOff, LayoutGrid, List } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { Icon } from '@iconify/react';
 import { supabase } from '../lib/supabase';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -85,8 +86,9 @@ const AdminDashboard = () => {
     const { error } = await supabase.from('rentals').update({ status: newStatus }).eq('id', id);
     if (!error) {
       fetchRentals();
+      toast.success('Log entry updated.');
     } else {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -244,8 +246,9 @@ const AdminDashboard = () => {
     if (!error) {
       setIsCarModalOpen(false);
       fetchCars();
+      toast.success(editingCar ? 'Asset modified.' : 'New asset commissioned.');
     } else {
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 

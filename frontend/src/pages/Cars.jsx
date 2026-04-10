@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, Check, X, Info, Clock, MapPin, Search } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { supabase } from '../lib/supabase';
 import SplitText from '../components/SplitText';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -114,7 +115,7 @@ const Cars = () => {
 
   const handleRent = async () => {
     if (!startDate || !endDate) {
-      alert('Please select start and end dates');
+      toast.error('Select duration window');
       return;
     }
 
@@ -123,7 +124,7 @@ const Cars = () => {
     // Get current user session
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      alert('Please login to reserve an asset');
+      toast.error('Log in required for reservations');
       setRenting(false);
       return;
     }
@@ -146,11 +147,12 @@ const Cars = () => {
 
     if (!rentError) {
       setSuccess(true);
+      toast.success('Reservation Established');
       // Refresh rentals
       const { data } = await supabase.from('rentals').select('*');
       if (data) setRentals(data);
     } else {
-      alert(rentError.message);
+      toast.error(rentError.message);
     }
     setRenting(false);
   };
