@@ -85,7 +85,7 @@ const Login = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Email Address</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Email Address</label>
                 <input 
                   type="email" 
                   required
@@ -96,7 +96,7 @@ const Login = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Password</label>
+                <label className="block text-xs font-bold uppercase tracking-wider text-zinc-500 mb-2">Password</label>
                 <div className="relative">
                   <input 
                     type={showPassword ? "text" : "password"}
@@ -119,9 +119,9 @@ const Login = () => {
               <button 
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 mt-4 text-white bg-primary rounded-xl font-medium hover:bg-primary/90 transition-all shadow-sm flex items-center justify-center disabled:opacity-50"
+                className="w-full py-4 mt-4 text-white bg-zinc-950 rounded-2xl font-bold uppercase text-xs tracking-widest hover:bg-zinc-800 transition-all shadow-lg active:scale-[0.98] flex items-center justify-center disabled:opacity-50"
               >
-                {loading ? (isLogin ? 'Signing In...' : 'Creating Account...') : <>{isLogin ? <LogIn className="mr-2 h-5 w-5"/> : <UserPlus className="mr-2 h-5 w-5"/>} {isLogin ? 'Sign In' : 'Sign Up'}</>}
+                {loading ? (isLogin ? 'Signing In...' : 'Creating Account...') : <>{isLogin ? <LogIn className="mr-2 h-4 w-4"/> : <UserPlus className="mr-2 h-4 w-4"/>} {isLogin ? 'Sign In' : 'Sign Up'}</>}
               </button>
             </form>
 
@@ -130,7 +130,7 @@ const Login = () => {
               <button 
                 type="button" 
                 onClick={() => { setIsLogin(!isLogin); setError(null); }} 
-                className="text-primary hover:underline font-medium cursor-pointer"
+                className="text-zinc-950 hover:text-black font-bold underline decoration-zinc-300 underline-offset-4 cursor-pointer transition-colors"
               >
                 {isLogin ? 'Create one' : 'Sign in'}
               </button>
