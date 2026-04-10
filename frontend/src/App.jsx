@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import { supabase } from './lib/supabase';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
+import InspectorGuard from './components/InspectorGuard';
 
 const ProtectedRoute = ({ children, requiredRole }) => {
   const [session, setSession] = useState(null);
@@ -81,32 +82,34 @@ function App() {
   }, []);
   return (
     <Router>
-      <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
-        <Navbar />
-        <main className="pt-24 pb-8 flex-grow text-zinc-950">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cars" element={<Cars />} />
-            <Route 
-              path="/admin" 
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            <Route path="/login" element={<Login />} />
-            <Route 
-              path="/my-rentals" 
-              element={
-                <ProtectedRoute>
-                  <MyRentals />
-                </ProtectedRoute>
-              } 
-            />
-          </Routes>
-        </main>
-      </div>
+      <InspectorGuard>
+        <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+          <Navbar />
+          <main className="pt-24 pb-8 flex-grow text-zinc-950">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/cars" element={<Cars />} />
+              <Route 
+                path="/admin" 
+                element={
+                  <ProtectedRoute>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route path="/login" element={<Login />} />
+              <Route 
+                path="/my-rentals" 
+                element={
+                  <ProtectedRoute>
+                    <MyRentals />
+                  </ProtectedRoute>
+                } 
+              />
+            </Routes>
+          </main>
+        </div>
+      </InspectorGuard>
     </Router>
   );
 }
